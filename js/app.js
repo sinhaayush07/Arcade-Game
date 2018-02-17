@@ -23,16 +23,17 @@ Enemy.prototype.update = function(dt) {
     if(this.x > 500){
         this.reset();
     };
-    //handling collision with the enemies
-    if( player.x >= this.x -40 && player.x <=this.x + 40 ){
-        if( player.y >= this.y -40 && player.y <=  this.y+40 ){
+    
+    //In case of collision with the enemiesS
+    if( player.x >= this.x -50 && player.x <=this.x + 50 ){
+        if( player.y >= this.y -50 && player.y <=  this.y+50 ){
             player.reset();
         }
     }
     //handling if the player reaches the blue line
     if(player.y <=20){
         console.log("you won")
-        this.reset();
+        player.reset();
     }
 };
 
@@ -90,11 +91,11 @@ Player.prototype = {
 // All enemy objects are in an array called allEnemies
 // The player object is in a variable called player
 var enemy1 = new Enemy(-100,60);
-var enemy4 = new Enemy(-600,60);
-var enemy2 = new Enemy(-165,140);
-var enemy3 = new Enemy(-500,140);
-var enemy5 = new Enemy(-200,220);
-var enemy6 = new Enemy(-400,220);
+var enemy2 = new Enemy(-160,140);
+var enemy3 = new Enemy(-550,140);
+var enemy4 = new Enemy(-650,60);
+var enemy5 = new Enemy(-240,220);
+var enemy6 = new Enemy(-450,220);
 var enemy7 = new Enemy(-300,60);
 var enemy8 = new Enemy(-300,140);
 
