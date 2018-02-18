@@ -1,10 +1,12 @@
-// Enemies our player must avoid
+'use strict';
+// Enemies our player must avoid.
 var Enemy = function(x,y) {
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
     this.preX = x;
     this.preY = y;
+    this.speed = 250;
 
 };
 
@@ -13,28 +15,19 @@ var Enemy = function(x,y) {
 Enemy.prototype.update = function(dt) {
     // This ensures the game runs at the same speed for
     // all computers.
-    for(let i=0; i<allEnemies.length; i++){
-        allEnemies[i].speed=250;
-    }
+   
 
     this.x = this.x+(this.speed*dt);
     
+    //player.update.call(this)
     //reset the enemy position
     if(this.x > 500){
         this.reset();
-    };
+    }
     
     //In case of collision with the enemiesS
-    if( player.x >= this.x -50 && player.x <=this.x + 50 ){
-        if( player.y >= this.y -50 && player.y <=  this.y+50 ){
-            player.reset();
-        }
-    }
-    //handling if the player reaches the blue line
-    if(player.y <=20){
-        console.log("you won")
-        player.reset();
-    }
+   
+    
 };
 
 // Draw the enemy on the screen, required method for game
@@ -45,6 +38,16 @@ Enemy.prototype.render = function() {
 Enemy.prototype.reset = function(){
     this.x = this.preX;
     this.y = this.preY;
+};
+
+Enemy.prototype.checkCollision = function(){
+    if( player.x >= this.x -50 && player.x <= this.x + 50 ){
+        if( player.y >= this.y -50 && player.y <=  this.y+50 ){
+            player.reset();
+        } 
+        
+    }
+    
 }
 
 
@@ -57,35 +60,39 @@ let Player = function(x,y){
     this.y =y;
     this.preX = x;
     this.preY = y;
-}
+};
 
-Player.prototype = {
-    update : function(){
-        return true;
-
-    },
-    render : function(){
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    },
-    handleInput : function(kyprs){
-        if(kyprs === 'left' && this.x > 0){
-            this.x = this.x-50
-        }
-        else if(kyprs === 'right' && this.x < 400){
-            this.x = this.x + 50
-        }
-        else if(kyprs === 'up' && this.y > 0){
-            this.y = this.y - 50
-        }
-        else if(kyprs ==='down' && this.y < 410){
-            this.y = this.y + 50
-        }
-    },
-    reset : function(){
-        this.x = this.preX;
-        this.y = this.preY;
+Player.prototype.update  = function(){
+    //handling if the player reaches the blue line
+    if(player.y <= 20){
+        console.log("you won");
+        player.reset();
     }
-}
+};
+
+Player.prototype.render = function(){
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput = function(kyprs){
+    if(kyprs === 'left' && this.x > 0){
+        this.x = this.x-50;
+    }
+    else if(kyprs === 'right' && this.x < 400){
+        this.x = this.x + 50;
+    }
+    else if(kyprs === 'up' && this.y > 0){
+        this.y = this.y - 50;
+    }
+    else if(kyprs ==='down' && this.y < 410){
+        this.y = this.y + 50;
+    }
+};
+
+Player.prototype.reset = function(){
+    this.x = this.preX;
+    this.y = this.preY;
+};
 
 
 // All enemy objects are in an array called allEnemies
@@ -102,7 +109,7 @@ var enemy8 = new Enemy(-300,140);
 
 let allEnemies = [enemy1,enemy2,enemy3,enemy4,enemy5,enemy6,enemy7,enemy8];
 
-let player = new Player(0,400)
+let player = new Player(0,400);
 
 // This listens for key presses and sends the keys to 
 // Player.handleInput() method.
